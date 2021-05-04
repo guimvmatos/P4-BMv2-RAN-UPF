@@ -2,16 +2,16 @@
 - hosts: all
   tasks:
   - name: Enable interface
-    command: ifconfig enp0s8 up
+    command: ifconfig enp0s9 up
     become: yes
   - name: Enable interface
-    command: ifconfig enp0s9 up
+    command: ifconfig enp0s10 up
     become: yes
   - name: Compile p4 code
     command: p4c -b bmv2 /vagrant/code/ran.p4 -o /vagrant/code/int.bmv2
     become: yes
   - name: Start Bmv2 Switch
-    shell: simple_switch --device-id 1 --thrift-port 9090 --interface 0@enp0s8 --interface 1@enp0s9  /vagrant/code/int.bmv2/ran.json &
+    shell: simple_switch --device-id 1 --thrift-port 9090 --interface 0@enp0s9 --interface 1@enp0s10  /vagrant/code/int.bmv2/ran.json &
     async: 1000
     poll: 5
     become: yes
