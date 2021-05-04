@@ -2,10 +2,10 @@
 - hosts: all
   tasks:
   - name: Enable interface
-    command: ifconfig enp0s9 up
+    command: ifconfig enp0s8 up
     become: yes
   - name: Enable interface
-    command: ifconfig enp0s10 up
+    command: ifconfig enp0s9 up
     become: yes
   - name: Compile p4 code
     command: p4c -b bmv2 /vagrant/code/ran.p4 -o /vagrant/code/int.bmv2
