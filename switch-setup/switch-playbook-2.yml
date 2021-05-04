@@ -11,7 +11,7 @@
     command: p4c -b bmv2 /vagrant/code/ran.p4 -o /vagrant/code/int.bmv2
     become: yes
   - name: Start Bmv2 Switch
-    shell: simple_switch --device-id 2 --thrift-port 9090 --interface 0@enp0s9 --interface 1@enp0s10  /vagrant/code/int.bmv2/ran.json &
+    shell: simple_switch --device-id 2 --thrift-port 9090 --interface 0@enp0s8 --interface 1@enp0s9  /vagrant/code/int.bmv2/ran.json &
     async: 1000
     poll: 5
     become: yes
