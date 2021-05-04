@@ -26,8 +26,8 @@ Vagrant.configure("2") do |config|
         
         #management network (IP - 192.168.56.200)
         #switch.vm.network "private_network", ip: "192.168.56.201",name: "vboxnet0"
-        upf.vm.network "private_network", ip: "fc20::1", mac: "080027cccccc", name: "vboxnet1"
-        upf.vm.network "public_network", ip: "fc00::5", mac: "00154d000004",bridge: "vf0_4"
+        switch.vm.network "private_network", ip: "fc20::1", mac: "080027cccccc", name: "vboxnet1"
+        switch.vm.network "public_network", ip: "fc00::5", mac: "00154d000004",bridge: "vf0_4"
         switch.vm.provision "ansible" do |ansible| 
             ansible.playbook = "switch-setup/switch-playbook-2.yml"
         end
