@@ -11,19 +11,10 @@ Vagrant.configure("2") do |config|
     config.vm.define "bmv2-1" do |switch|
         switch.vm.box = "leandrocdealmeida/bmv2-p4"
         switch.vm.hostname = "bmv2-1"
-        
         #management network (IP - 192.168.56.200)
-        switch.vm.network "private_network", ip: "192.168.56.200",
-            name: "vboxnet0"
-        
-        #Internal network between host-1 and bmv2 switch1.
-        switch.vm.network "private_network", auto_config: false,
-            virtualbox__intnet: "H1-S1"
-        
-        #Internal network between bmv2 switches
-        switch.vm.network "private_network", auto_config: false,
-            virtualbox__intnet: "S1-S2"
-
+        #switch.vm.network "private_network", ip: "192.168.56.200",name: "vboxnet0"
+		switch.vm.network "private_network", ip: "fc10::1", mac: "080027bbbbbb",name: "vboxnet0"
+        switch.vm.network "public_network", ip: "fc00::1", mac: "00154d000000",bridge: "vf0_0"
         switch.vm.provision "ansible" do |ansible| 
             ansible.playbook = "switch-setup/switch-playbook-1.yml"
         end
@@ -34,22 +25,14 @@ Vagrant.configure("2") do |config|
         switch.vm.hostname = "bmv2-2"
         
         #management network (IP - 192.168.56.200)
-        switch.vm.network "private_network", ip: "192.168.56.201",
-            name: "vboxnet0"
-        
-        #Internal network between bmv2 switches
-        switch.vm.network "private_network", auto_config: false,
-            virtualbox__intnet: "S1-S2"
-        
-        #Internal network between bmv2 switch2 and host-2.
-        switch.vm.network "private_network", auto_config: false,
-            virtualbox__intnet: "S2-H2"
-
+        #switch.vm.network "private_network", ip: "192.168.56.201",name: "vboxnet0"
+        upf.vm.network "private_network", ip: "fc20::1", mac: "080027cccccc", name: "vboxnet1"
+        upf.vm.network "public_network", ip: "fc00::5", mac: "00154d000004",bridge: "vf0_4"
         switch.vm.provision "ansible" do |ansible| 
             ansible.playbook = "switch-setup/switch-playbook-2.yml"
         end
     end
-
+'''
     config.vm.define "host-1" do |h|
         h.vm.box = IMAGE_NAME
         h.vm.hostname = "host-1"
@@ -69,7 +52,7 @@ Vagrant.configure("2") do |config|
             ansible.playbook = "host-setup/host2-playbook.yml"
         end
     end
-
+'''
 
 
 end
