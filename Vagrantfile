@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
         switch.vm.provision "file", source: "code/ran.p4", destination: "ran.p4"
         #switch.vm.provision "ansible" do |ansible| 
         #    ansible.playbook = "switch-setup/switch-playbook-1.yml"
-        end
+        #end
     end
 
     config.vm.define "bmv2-2" do |switch|
