@@ -11,8 +11,8 @@ Vagrant.configure("2") do |config|
     config.vm.define "bmv2-1" do |switch|
         switch.vm.box = "leandrocdealmeida/bmv2-p4"
         switch.vm.hostname = "bmv2-1"
-        #management network (IP - 192.168.56.200)
-        #switch.vm.network "private_network", ip: "192.168.56.200",name: "vboxnet0"
+        management network (IP - 192.168.56.200)
+        switch.vm.network "private_network", ip: "192.168.56.200",name: "vboxnet0"
 		switch.vm.network "private_network", ip: "fc10::1", mac: "080027bbbbbb",name: "vboxnet0"
         switch.vm.network "public_network", ip: "fc00::1", mac: "00154d000000",bridge: "vf0_0"
         switch.vm.provision "ansible" do |ansible| 
@@ -24,8 +24,8 @@ Vagrant.configure("2") do |config|
         switch.vm.box = "leandrocdealmeida/bmv2-p4"
         switch.vm.hostname = "bmv2-2"
         
-        #management network (IP - 192.168.56.200)
-        #switch.vm.network "private_network", ip: "192.168.56.201",name: "vboxnet0"
+        management network (IP - 192.168.56.200)
+        switch.vm.network "private_network", ip: "192.168.56.201",name: "vboxnet0"
         switch.vm.network "private_network", ip: "fc20::1", mac: "080027cccccc", name: "vboxnet1"
         switch.vm.network "public_network", ip: "fc00::5", mac: "00154d000004",bridge: "vf0_4"
         switch.vm.provision "ansible" do |ansible| 
