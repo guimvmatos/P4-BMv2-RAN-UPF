@@ -30,9 +30,11 @@ Vagrant.configure("2") do |config|
         switch.vm.network "private_network", ip: "192.168.56.201",name: "vboxnet0"
         switch.vm.network "private_network", ip: "fc20::1", mac: "080027cccccc", name: "vboxnet1"
         switch.vm.network "public_network", ip: "fc00::5", mac: "00154d000004",bridge: "vf0_4"
-        switch.vm.provision "ansible" do |ansible| 
-            ansible.playbook = "switch-setup/switch-playbook-2.yml"
-        end
+        switch.vm.provision "file", source: "code/ran.p4", destination: "ran.p4"
+        switch.vm.provision "file", source: "code/commands2.txt", destination: "commands2.txt"
+        #switch.vm.provision "ansible" do |ansible| 
+        #    ansible.playbook = "switch-setup/switch-playbook-2.yml"
+        #end
     end
 '''
     config.vm.define "host-1" do |h|
