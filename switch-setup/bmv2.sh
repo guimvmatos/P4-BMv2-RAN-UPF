@@ -7,6 +7,7 @@ sudo ip link set dev enp0s10 up
 apt-get install curl
 curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 python get-pip.py
+pip install ipaddr
 
 cd /home/p4/behavioral-model/
 ./configure --enable-debugger
