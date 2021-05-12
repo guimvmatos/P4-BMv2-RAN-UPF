@@ -1,11 +1,6 @@
 #!/bin/bash
 
-sudo ip link set dev lo up
-sudo ip link set dev enp0s9 up
-sudo ip link set dev enp0s10 up
 
-ip link set enp0s9 mtu 1500
-ip link set enp0s10 mtu 9000
 
 apt-get install curl
 curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
