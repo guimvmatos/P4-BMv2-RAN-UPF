@@ -222,7 +222,7 @@ control MyIngress (inout headers hdr,
     }
 
 
-    action core5g_build (ip6Addr_t s1, ip6Addr_t s2, ip6Addr_t s3, ip6Addr_t src) {
+    action core5g_build (ip6Addr_t s1, ip6Addr_t s2, ip6Addr_t s3, ip6Addr_t src, bit<32> teid) {
         hdr.ipv6_outer.setValid();
         hdr.srv63.setValid();
         hdr.udp.setValid();
@@ -265,7 +265,7 @@ control MyIngress (inout headers hdr,
 	    hdr.gtp.npdu_number_flag_id = 0;
 	    hdr.gtp.msgtype = 255 ;
 	    hdr.gtp.msglen = 0;
-	    hdr.gtp.teid = 32;
+	    hdr.gtp.teid = teid
 
 		hdr.gtp_ext.next_extension = 133;
 
