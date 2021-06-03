@@ -265,7 +265,7 @@ control MyIngress (inout headers hdr,
 	    hdr.gtp.npdu_number_flag_id = 0;
 	    hdr.gtp.msgtype = 255 ;
 	    hdr.gtp.msglen = 0;
-	    hdr.gtp.teid = teid
+	    hdr.gtp.teid = teid;
 
 		hdr.gtp_ext.next_extension = 133;
 
