@@ -276,7 +276,7 @@ control MyIngress (inout headers hdr,
 		hdr.pdu_container.padding = 0;
 
     }
-
+/*
     table ipv6_outer_lpm {
         key = {
             hdr.ipv6_outer.dst_addr:exact;
@@ -289,7 +289,7 @@ control MyIngress (inout headers hdr,
         size = 1024;
         default_action = drop();
     }
-
+*/
 
     table ipv6_inner_lpm { /*encaminha fc10::2 ou fc20::2 para final*/
         key = {
@@ -336,7 +336,7 @@ control MyIngress (inout headers hdr,
             downlink.apply();
         }
         ipv6_inner_lpm.apply();
-        
+
     }
 }
 /************************************************************************
