@@ -1,4 +1,4 @@
-table_add uplink core5g_build fc10::2 => fc00::5 fc00::101 fc00::100 fc00::1 32
+table_add uplink core5g_build fc10::2 => fc00::5 fc00::5 fc00::5 fc00::1 32
 table_add uplink core5g_build fc10::3 => fc00::5 fc00::101 fc00::100 fc00::1 33
 table_add uplink core5g_build fc20::2 => fc00::1 fc00::101 fc00::100 fc00::5 32
 
