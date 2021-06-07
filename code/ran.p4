@@ -331,12 +331,15 @@ control MyIngress (inout headers hdr,
     
     apply {
         if (!hdr.gtp.isValid()){
-            uplink.apply();
+            /*uplink.apply();*/
+            ipv6_inner_lpm.apply();
+            /*ipv6_outer_lpm.apply();*/
         } else if (hdr.gtp.isValid() && !hdr.srv63.isValid()){
             downlink.apply();
+            ipv6_inner_lpm.apply();
         }
-        ipv6_inner_lpm.apply();
-
+        
+        
     }
 }
 /************************************************************************
