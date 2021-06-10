@@ -140,7 +140,7 @@ parser MyParser(packet_in packet,
             /*TYPE_TCP: parse_tcp_outer;*/
             /*TYPE_SRV6: parse_srv63;*/
             /*só preciso saber se é udp para verifiar se é 5g, qualquer outro eu aceito*/
-            default: accept; 
+            default: accept;
         }
     }
 
@@ -222,9 +222,9 @@ control MyIngress (inout headers hdr,
     }
 
 
-    action core5g_build (ip6Addr_t s1, ip6Addr_t s2, ip6Addr_t s3, ip6Addr_t src, bit<32> teid) {
+    action core5g_build (ip6Addr_t src, ip6Addr_t dst, bit<32> teid) {
         hdr.ipv6_outer.setValid();
-        hdr.srv63.setValid();
+        /*hdr.srv63.setValid();*/
         hdr.udp.setValid();
         hdr.gtp.setValid();
         hdr.gtp_ext.setValid();
@@ -233,14 +233,14 @@ control MyIngress (inout headers hdr,
         hdr.ipv6_outer.version = TYPE_IP6;
         hdr.ipv6_outer.traffic_class =  123;
         hdr.ipv6_outer.flow_label = 0;
-        /*hdr.ipv6_outer.payload_len = 80 + hdr.ipv6_inner.payload_len; /*180 -> valor com ping*/
-        hdr.ipv6_outer.payload_len = 116 + hdr.ipv6_inner.payload_len; /*180 -> valor com ping*/
-        hdr.ipv6_outer.next_hdr = TYPE_SRV6;
+        hdr.ipv6_outer.payload_len = 60 + hdr.ipv6_inner.payload_len;
+        /*hdr.ipv6_outer.payload_len = 116 + hdr.ipv6_inner.payload_len; /*180 -> valor com ping*/
+        hdr.ipv6_outer.next_hdr = TYPE_UDP;
         hdr.ipv6_outer.hop_limit = 64;
-        hdr.ipv6_outer.dst_addr = s1;
+        hdr.ipv6_outer.dst_addr = dst;
         hdr.ipv6_outer.src_addr = src;
         
-
+/*
         hdr.srv63.next_hdr = TYPE_UDP;
         hdr.srv63.hdr_ext_len =  LEN;
         hdr.srv63.routing_type = TYPE_SR;
@@ -248,8 +248,8 @@ control MyIngress (inout headers hdr,
         hdr.srv63.last_entry = 2;
         hdr.srv63.flags = 0;
         hdr.srv63.tag = 0;
-        hdr.srv63.segment_id1 = s1; /*(match fc00::1 -> fc00::1 e vice versa)*/
-        hdr.srv63.segment_id2 = s2; /*fc00::101*/
+        hdr.srv63.segment_id1 = s1; /*(match fc00::1 -> fc00::1 e vice versa)
+        hdr.srv63.segment_id2 = s2; /*fc00::101
         hdr.srv63.segment_id3 = s3; /*fc00::100*/
 
         hdr.udp.sport = 64515;
