@@ -18,16 +18,14 @@ from gpt2 import *
 from scapy import all
 
 class dl_pdu_session(Packet):
-        name = "DL PDU Session"
-	fields_desc = [ BitField("gtp_ext", 0,8),	
-			BitField("PDU_type",0,4),
-			BitField("Spare",0,5),
-			BitField("RQI",0,1),
-			BitField("QoSID",0,6),
-			BitField("padding",0,8),	
-			]
-        def extract_padding(self, p):
-            return "", p
+    name = "DL PDU Session"
+	fields_desc = [ BitField("gtp_ext", 0,8),
+                BitField("PDU_type",0,4),
+                BitField("Spare",0,5),
+                BitField("RQI",0,1),
+                BitField("QoSID",0,6),
+                BitField("padding",0,8),
+                ]
 
 def main():
     bind_layers(GTP_U_Header, dl_pdu_session, E = 1 )
