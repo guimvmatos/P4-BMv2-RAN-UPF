@@ -16,8 +16,8 @@ Vagrant.configure("2") do |config|
         end
         switch.vm.provision "file", source: "code/ran.p4", destination: "ran.p4"
         switch.vm.provision "file", source: "code/commands2.txt", destination: "commands2.txt"
-        switch.vm.provision "file", source: "code/gpt2.py", destination: "gpt2.py.txt"
-        switch.vm.provision "file", source: "code/flow.py", destination: "flow.py.txt"
+        switch.vm.provision "file", source: "code/gpt2.py", destination: "gpt2.py"
+        switch.vm.provision "file", source: "code/flow.py", destination: "flow.py"
         #switch.vm.provision "ansible" do |ansible| 
         #    ansible.playbook = "switch-setup/switch-playbook-1.yml"
         #end
