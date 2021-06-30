@@ -17,7 +17,7 @@ Simulate RAN and UPF operations on a 5G simulated network. Basically, simulate R
 
 
 # Starting the services.
-On both virtual machines, you must create a json file from P4 code and start BMv2 Switch with it.
+On both virtual machines, you must create a json file from P4 code and start the BMv2 Switch with it.
 ```
 sudo ip link set dev lo up 
 sudo ip link set dev enp0s9 up
@@ -40,6 +40,6 @@ On another terminal:
 
 and then copy and past all code from `commands2.txt`
 
-#Considerations
+# Considerations
 
-This code and it topology is part of INCA project. If you want to see more and understand it better, please visit. 
+This code and it topology is part of the INCA project. If you want to see more and understand it better, please visit. 
