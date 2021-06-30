@@ -1,41 +1,42 @@
-# Lab INT-P4
-This is my first lab to use InBand Network Telemetry with P4. To use this lab, you will need following requirements:
+# P4 BMv2 RAN/UPF
+This is a P4-BMv2 model of RAN and UPF to use use with INCA. To use this code, you will need following requirements:
 
 - Virtualbox
 - Vagrant
-- Ansible
+- Netronome Agilio SmartNIC
 
-# Purpose of the lab
+# Purpose of this repo
 
-Use InBand Network Telemetry to collect metadata from BMv2 switches. 
+Simulate RAN and UPF operations on a 5G simulated network. Basically, simulate RAN and UPF operations in a simulated 5G network. Basically, this code encapsulates and de-encapsulates IPv6 traffic in GTP headers and forwards it to the destination client or network. 
 
 # Topology
 ![INT-P4 Topology](https://user-images.githubusercontent.com/10882149/107682204-cadb9780-6c7e-11eb-9492-eafb4ed509d7.png)
 
 # Commands
-- ``` vagrant up ``` will create four virtual machines and start the topology.
-- ``` vagrant ssh host-1 ``` will make a ssh connection in a virtual machine host-1. This virtual machine has IP address 192.168.50.11
-- ``` vagrant ssh host-2 ``` will make a ssh connection in a virtual machine host-2. This virtual machine has IP address 192.168.50.12
+- ``` vagrant up ``` will create two virtual machines.
+- ``` vagrant ssh bmv2-1 ``` will make a ssh connection in a virtual machine bmv2-1 (RAN). This virtual machine has IPv6 addresses fc00::1 and fc10::1.
+- ``` vagrant ssh bmv2-2 ``` will make a ssh connection in a virtual machine bmv2-2 (UPF). This virtual machine has IPv6 addresses fc00::5 and fc20::1.
 
-# Host-2
-In host-2 you need run the python script (receive.py) for start server application.
-- ``` cd /vagrant/code ```
-- ``` sudo ./receive.py ```
 
-# Host-1
-In host-1 you need run the python script (send.py) for start client application.
-- ``` cd /vagrant/code ```
-- ``` sudo ./send.py 192.168.50.12 ```
+# Starting the services.
+On both virtual machines, you must create a json file from P4 code and start BMv2 Switch with it.
+- ``` sudo ip link set dev lo up ```
+- ``` sudo ip link set dev enp0s9 up ```
+- ``` sudo ip link set dev enp0s10 up ```
+- ``` ip link set enp0s9 mtu 1500 ```
+- ``` ip link set enp0s10 mtu 9000  ```
+- ``` curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py ```
+- ``` python get-pip.py ```
+- ``` pip install ipaddr ```
+- ``` cd /home/p4/behavioral-model/ ```
+- ``` ./configure --enable-debugger ```
+- ``` make ```
+- ``` make install ```
+- ``` p4c -b bmv2 ran.p4 -o ./ ```
+- ``` simple_switch -i 1@enp0s9 -i 2@enp0s10 ran.json ```
 
-# InBand Network Telemetry metadata
-In host-2 terminal you can see metadata that were collected from switches. The metadata are:
-- switchID_t: switch identifier
-- ingress_port: for new packets, the number of the ingress port on which the packet arrived to the device.
-- egress_port: the output port this packet is destined to.
-- egress_spec: Can be assigned a value in ingress code to control which output port a packet will go to. 
-- ingress_global_timestamp: a timestamp, in microseconds, set when the packet shows up on ingress. 
-- egress_global_timestamp: a timestamp, in microseconds, set when the packet starts egress processing. 
-- enq_timestamp: a timestamp, in microseconds, set when the packet is first enqueued.
-- enq_qdepth: the depth of the queue when the packet was first enqueued, in units of number of packets (not the total size of packets).
-- deq_timedelta: the time, in microseconds, that the packet spent in the queue.
-- deq_qdepth: the depth of queue when the packet was dequeued, in units of number of packets (not the total size of packets).
+On another terminal:
+- ``` simple_switch_CLI ```
+copy and past all code from commands2.txt
+
+This code is part of the INCA project. If you want to see more and understand it better, please visit. 

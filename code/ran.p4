@@ -22,7 +22,7 @@ const bit<8> LEN = 6;
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
 *************************************************************************/
-typedef bit<9> egressSpec_t; /*todo mudar para 9 na netronome*/
+typedef bit<9> egressSpec_t; 
 typedef bit<48> macAddr_t;
 typedef bit<128> ip6Addr_t;
 header ethernet_t {
@@ -137,9 +137,6 @@ parser MyParser(packet_in packet,
         packet.extract(hdr.ipv6_outer);
         transition select(hdr.ipv6_outer.next_hdr){
             TYPE_UDP: parse_udp_outer;
-            /*TYPE_TCP: parse_tcp_outer;*/
-            /*TYPE_SRV6: parse_srv63;*/
-            /*só preciso saber se é udp para verifiar se é 5g, qualquer outro eu aceito*/
             default: accept; 
         }
     }
@@ -147,8 +144,8 @@ parser MyParser(packet_in packet,
     state parse_udp_outer {
         packet.extract(hdr.udp);
         transition select (hdr.udp.dport){
-            TYPE_GTP: parse_gtp; /*seria o downlink*/
-            default: accept; /*se não 5g, é uplink*/
+            TYPE_GTP: parse_gtp;
+            default: accept;
         }
     }
     
@@ -173,9 +170,9 @@ parser MyParser(packet_in packet,
     state parse_ipv6_inner{
         packet.extract(hdr.ipv6_inner);
         transition select(hdr.ipv6_inner.next_hdr){
-            TYPE_UDP: parse_udp_inner; /*preciso pois posso filtrar as portas no inca*/
-            TYPE_TCP: parse_tcp_inner; /*preciso pois posso filtrar as portas no inca*/
-            default: accept; /*se for um icmp por exemplo, passa tb*/
+            TYPE_UDP: parse_udp_inner; 
+            TYPE_TCP: parse_tcp_inner; 
+            default: accept;
         }
     }
     state parse_udp_inner{
@@ -248,9 +245,9 @@ control MyIngress (inout headers hdr,
         hdr.srv63.last_entry = 2;
         hdr.srv63.flags = 0;
         hdr.srv63.tag = 0;
-        hdr.srv63.segment_id1 = s1; /*(match fc00::1 -> fc00::1 e vice versa)*/
-        hdr.srv63.segment_id2 = s2; /*fc00::101*/
-        hdr.srv63.segment_id3 = s3; /*fc00::100*/
+        hdr.srv63.segment_id1 = s1; 
+        hdr.srv63.segment_id2 = s2; 
+        hdr.srv63.segment_id3 = s3; 
 
         hdr.udp.sport = 64515;
     	hdr.udp.dport = TYPE_GTP;
@@ -291,7 +288,7 @@ control MyIngress (inout headers hdr,
     }
 
 
-    table ipv6_inner_lpm { /*encaminha fc10::2 ou fc20::2 para final*/
+    table ipv6_inner_lpm {
         key = {
             hdr.ipv6_inner.dst_addr:exact;
         }
@@ -306,20 +303,19 @@ control MyIngress (inout headers hdr,
 
     table uplink {
         key = {
-            hdr.ipv6_inner.src_addr:exact; /*endereço na ran: fc10::2  upf: fc20::2*/
+            hdr.ipv6_inner.src_addr:exact; 
         }
         actions = {
             core5g_build;
             drop;
         }
         default_action = drop();
-        /*size = 1024;*/
     }
 
     
     table downlink {
         key = {
-            hdr.ipv6_outer.dst_addr:exact; /*endereço na ran: fc00::1/upf: fc00::5*/
+            hdr.ipv6_outer.dst_addr:exact; 
         }
         actions = {
             core5g_pop;
