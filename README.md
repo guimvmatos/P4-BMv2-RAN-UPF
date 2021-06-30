@@ -11,6 +11,7 @@ Simulate RAN and UPF operations on a 5G simulated network. Basically, simulate R
 
 # Commands
 - ``` vagrant up ``` will create two virtual machines.
+- ``` vagrant provision ``` will provisionate all files to both virtual machines
 - ``` vagrant ssh bmv2-1 ``` will make a ssh connection in a virtual machine bmv2-1 (RAN). This virtual machine has IPv6 addresses fc00::1 and fc10::1.
 - ``` vagrant ssh bmv2-2 ``` will make a ssh connection in a virtual machine bmv2-2 (UPF). This virtual machine has IPv6 addresses fc00::5 and fc20::1.
 
